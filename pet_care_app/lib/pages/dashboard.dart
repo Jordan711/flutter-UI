@@ -175,7 +175,7 @@ class _DashboardState extends State<Dashboard> {
                 Wrap(
                   spacing: 20, 
                   runSpacing: 20, 
-                  children: Animals.dummyData.where((animal) => animal.animalType == "DOG").map((animal) {
+                  children: Animals.dummyData.where((animal) => animal.animalType == "CAT").map((animal) {
                     return SizedBox(
                       width: boxWidth - 30, 
                       child: AnimalBox(
