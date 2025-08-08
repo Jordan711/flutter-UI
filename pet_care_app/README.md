@@ -1,19 +1,10 @@
-# pet_care_app
+# Pet Care App Design Implementation
 
-A new Flutter project.
+## Credits
+Design by Amrita Ranjan:  https://dribbble.com/shots/26165956-Pet-Care-Mobile-App-UI-UX
 
-## Getting Started
+Dog Image in main screen: https://www.hiclipart.com/free-transparent-background-png-clipart-oepxh
 
-This project is a starting point for a Flutter application.
+Dog Images in Dashboard list: https://www.hiclipart.com/search?clipart=dog
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-
-Dog image: https://www.hiclipart.com/free-transparent-background-png-clipart-oepxh
 Icon Images: https://icons8.com/
