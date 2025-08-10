@@ -35,7 +35,7 @@ class VeterinaryInfoBox extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             SizedBox(
-              width: 150.0,
+              width: MediaQuery.of(context).size.width * 0.25,
               child: Image.asset(imagePath, fit: BoxFit.fill),
             ),
             SizedBox(width: 20.0),

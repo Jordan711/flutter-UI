@@ -59,7 +59,7 @@ class AnimalBox extends StatelessWidget {
                   child: Image.asset(
                     imagePath,
                     height: 150.0,
-                    fit: BoxFit.fitHeight,
+                    fit: BoxFit.fitWidth,
                   ),
                 ),
               ),
@@ -77,14 +77,14 @@ class AnimalBox extends StatelessWidget {
                       Text(
                         animalName,
                         style: TextStyle(
-                          fontSize: 20.0,
+                          fontSize: 18.0,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
                       Text(
                         distance,
                         style: TextStyle(
-                          fontSize: 13.0,
+                          fontSize: 12.0,
                           color: Colors.grey[700],
                         ),
                       ),
@@ -93,7 +93,7 @@ class AnimalBox extends StatelessWidget {
                   Text(
                     price,
                     style: TextStyle(
-                      fontSize: 20.0,
+                      fontSize: 18.0,
                       fontWeight: FontWeight.w700,
                     ),
                   ),

@@ -39,7 +39,7 @@ class MainPage extends StatelessWidget {
                   "Smarter Health Starts Here",
                   style: GoogleFonts.poppins(
                     fontWeight: FontWeight.w900,
-                    fontSize: 45.0,
+                    fontSize: 40.0,
                   ),
                   textAlign: TextAlign.center,
                 ),

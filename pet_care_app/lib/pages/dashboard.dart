@@ -98,7 +98,7 @@ class _DashboardState extends State<Dashboard> {
                                 SizedBox(
                                   width: halfWidth,
                                   child: Text(
-                                    "Find Nearest Veterinarians For Your Pet",
+                                    "Find Nearest Veterinarian For Your Pet",
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 24.0,

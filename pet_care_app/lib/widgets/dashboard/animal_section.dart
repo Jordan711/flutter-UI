@@ -77,7 +77,7 @@ class _AnimalSectionState extends State<AnimalSection> {
                           imagePath: animal.imagePath,
                           animalName: animal.animalName,
                           distance: '${animal.distance.toString()} km away',
-                          price: '\$${animal.price.toString()}',
+                          price: '\$${animal.price.round().toString()}',
                           startColour: animal.startColour,
                           endColour: animal.endColour,
                         ),
