@@ -37,10 +37,7 @@ class _DashboardState extends State<Dashboard> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          "Hi Bobson Liu",
-                          style: GlobalStyling.title,
-                        ),
+                        Text("Hi Bobson Liu", style: GlobalStyling.title),
                         Text("Good Morning!"),
                       ],
                     ),
@@ -99,8 +96,7 @@ class _DashboardState extends State<Dashboard> {
                             final double halfWidth =
                                 (constraints.maxWidth - 16) / 2;
                             return Row(
-                              crossAxisAlignment: CrossAxisAlignment
-                                  .center, 
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 SizedBox(
                                   width: halfWidth,
@@ -119,8 +115,11 @@ class _DashboardState extends State<Dashboard> {
                                 SizedBox(
                                   width: halfWidth,
                                   child: Center(
-                                    child: Image.asset("images/veterinarian-pets.png", filterQuality: FilterQuality.high)
-                                  )
+                                    child: Image.asset(
+                                      "images/veterinarian-pets.png",
+                                      filterQuality: FilterQuality.high,
+                                    ),
+                                  ),
                                 ),
                               ],
                             );
@@ -136,58 +135,13 @@ class _DashboardState extends State<Dashboard> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      "Categories",
-                      style: GlobalStyling.title,
-                    ),
+                    Text("Categories", style: GlobalStyling.title),
                     TextButton(onPressed: () {}, child: Text("See All")),
                   ],
                 ),
+                //TODO Implement filter
                 SizedBox(height: 10.0),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    CategoryToggleButton(
-                      imagePath: "images/icons8-shiba-inu-100.png",
-                      categoryName: "Dog",
-                    ),
-                    CategoryToggleButton(
-                      imagePath: "images/icons8-cat-100.png",
-                      categoryName: "Cat",
-                    ),
-                    CategoryToggleButton(
-                      imagePath: "images/icons8-bird-48.png",
-                      categoryName: "Bird",
-                    ),
-                    CategoryToggleButton(
-                      imagePath: "images/icons8-fish-100.png",
-                      categoryName: "Fish",
-                    ),
-                  ],
-                ),
-                SizedBox(height: 25.0),
-
-                // Animals Section
-                Wrap(
-                  spacing: 20,
-                  runSpacing: 20,
-                  children: Animals.dummyData
-                      .where((animal) => animal.animalType == "DOG")
-                      .map((animal) {
-                        return SizedBox(
-                          width: boxWidth - 30,
-                          child: AnimalBox(
-                            imagePath: animal.imagePath,
-                            animalName: animal.animalName,
-                            distance: '${animal.distance.toString()} km away',
-                            price: '\$${animal.price.toString()}',
-                            startColour: animal.startColour,
-                            endColour: animal.endColour,
-                          ),
-                        );
-                      })
-                      .toList(),
-                ),
+                AnimalSection(),
                 SizedBox(height: 20.0),
               ],
             ),
@@ -198,13 +152,97 @@ class _DashboardState extends State<Dashboard> {
   }
 }
 
+class AnimalSection extends StatefulWidget {
+  const AnimalSection({super.key});
+
+  @override
+  State<AnimalSection> createState() => _AnimalSectionState();
+}
+
+class _AnimalSectionState extends State<AnimalSection> {
+  Animal currFilter = Animal.dog;
+
+  @override
+  Widget build(BuildContext context) {
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double boxWidth = (screenWidth - 40 - 16) / 2;
+
+    void setCurrFilter(Animal newFilter) {
+      setState(() {
+        currFilter = newFilter;
+      });
+    }
+
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            CategoryToggleButton(
+              imagePath: "images/icons8-shiba-inu-100.png",
+              categoryName: Animal.dog,
+              changeSelected: setCurrFilter,
+              currSelected: currFilter,
+            ),
+            CategoryToggleButton(
+              imagePath: "images/icons8-cat-100.png",
+              categoryName: Animal.cat,
+              changeSelected: setCurrFilter,
+              currSelected: currFilter,
+            ),
+            CategoryToggleButton(
+              imagePath: "images/icons8-bird-48.png",
+              categoryName: Animal.bird,
+              changeSelected: setCurrFilter,
+              currSelected: currFilter,
+            ),
+            CategoryToggleButton(
+              imagePath: "images/icons8-fish-100.png",
+              categoryName: Animal.fish,
+              changeSelected: setCurrFilter,
+              currSelected: currFilter,
+            ),
+          ],
+        ),
+        SizedBox(height: 25.0),
+
+        // Animals Section
+        Wrap(
+          spacing: 20,
+          runSpacing: 20,
+          children: Animals.dummyData
+              .where((animal) => animal.animalType == currFilter)
+              .map((animal) {
+                return SizedBox(
+                  width: boxWidth - 30,
+                  child: AnimalBox(
+                    imagePath: animal.imagePath,
+                    animalName: animal.animalName,
+                    distance: '${animal.distance.toString()} km away',
+                    price: '\$${animal.price.toString()}',
+                    startColour: animal.startColour,
+                    endColour: animal.endColour,
+                  ),
+                );
+              })
+              .toList(),
+        ),
+      ],
+    );
+  }
+}
+
 class CategoryToggleButton extends StatefulWidget {
   final String imagePath;
-  final String categoryName;
+  final Animal categoryName;
+  final Function changeSelected;
+  final Animal currSelected;
   const CategoryToggleButton({
     super.key,
     required this.imagePath,
     required this.categoryName,
+    required this.changeSelected,
+    required this.currSelected,
   });
 
   @override
@@ -212,26 +250,6 @@ class CategoryToggleButton extends StatefulWidget {
 }
 
 class _CategoryToggleButtonState extends State<CategoryToggleButton> {
-  late bool activeStatus;
-
-  @override
-  void initState() {
-    activeStatus = false;
-    super.initState();
-  }
-
-  void updateSelected(String selected) {
-    if (widget.categoryName == selected) {
-      setState(() {
-        activeStatus = true;
-      });
-    } else {
-      setState(() {
-        activeStatus = false;
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -239,7 +257,7 @@ class _CategoryToggleButtonState extends State<CategoryToggleButton> {
         InkWell(
           onTap: () {
             setState(() {
-              updateSelected(widget.categoryName);
+              widget.changeSelected(widget.categoryName);
             });
           },
           child: Container(
@@ -247,7 +265,7 @@ class _CategoryToggleButtonState extends State<CategoryToggleButton> {
             width: 75.0,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(25),
-              color: activeStatus
+              color: widget.categoryName == widget.currSelected
                   ? GlobalColours.yellowButton
                   : GlobalColours.darkLightOrange,
             ),
@@ -259,7 +277,7 @@ class _CategoryToggleButtonState extends State<CategoryToggleButton> {
         ),
         SizedBox(height: 10.0),
         Text(
-          widget.categoryName,
+          widget.categoryName.label,
           textAlign: TextAlign.center,
           style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
         ),
