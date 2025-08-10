@@ -16,9 +16,6 @@ class _DashboardState extends State<Dashboard> {
 
   @override
   Widget build(BuildContext context) {
-    final double screenWidth = MediaQuery.of(context).size.width;
-    final double boxWidth = (screenWidth - 40 - 16) / 2;
-
     return Scaffold(
       backgroundColor: GlobalColours.lightOrange,
       body: SafeArea(
@@ -139,7 +136,6 @@ class _DashboardState extends State<Dashboard> {
                     TextButton(onPressed: () {}, child: Text("See All")),
                   ],
                 ),
-                //TODO Implement filter
                 SizedBox(height: 10.0),
                 AnimalSection(),
                 SizedBox(height: 20.0),
@@ -174,6 +170,7 @@ class _AnimalSectionState extends State<AnimalSection> {
     }
 
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
