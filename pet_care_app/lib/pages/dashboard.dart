@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pet_care_app/models/animals.dart';
 import 'package:pet_care_app/pages/training_page.dart';
 import 'package:pet_care_app/utils/global_colours.dart';
+import 'package:pet_care_app/utils/global_styling.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -22,26 +23,23 @@ class _DashboardState extends State<Dashboard> {
       backgroundColor: GlobalColours.lightOrange,
       body: SafeArea(
         child: Container(
-          margin: EdgeInsets.only(left: 40.0, right: 40.0, top: 40.0),
+          margin: EdgeInsets.all(40.0),
           child: ScrollConfiguration(
             behavior: ScrollConfiguration.of(
               context,
             ).copyWith(scrollbars: false),
             child: ListView(
               children: [
-                // Greeting section
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           "Hi Bobson Liu",
-                          style: TextStyle(
-                            fontSize: 25.0,
-                            fontWeight: FontWeight.w900,
-                          ),
+                          style: GlobalStyling.title,
                         ),
                         Text("Good Morning!"),
                       ],
@@ -102,7 +100,7 @@ class _DashboardState extends State<Dashboard> {
                                 (constraints.maxWidth - 16) / 2;
                             return Row(
                               crossAxisAlignment: CrossAxisAlignment
-                                  .start, // Important for multiline alignment
+                                  .center, 
                               children: [
                                 SizedBox(
                                   width: halfWidth,
@@ -110,7 +108,7 @@ class _DashboardState extends State<Dashboard> {
                                     "Find Nearest Veterinarians For Your Pet",
                                     style: TextStyle(
                                       color: Colors.white,
-                                      fontSize: 20.0,
+                                      fontSize: 24.0,
                                     ),
                                     softWrap: true,
                                   ),
@@ -120,14 +118,9 @@ class _DashboardState extends State<Dashboard> {
                                 ), // Optional spacing between the texts
                                 SizedBox(
                                   width: halfWidth,
-                                  child: Text(
-                                    "Find Nearest Veterinarians For Your Pet",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 20.0,
-                                    ),
-                                    softWrap: true,
-                                  ),
+                                  child: Center(
+                                    child: Image.asset("images/veterinarian-pets.png", filterQuality: FilterQuality.high)
+                                  )
                                 ),
                               ],
                             );
@@ -143,7 +136,10 @@ class _DashboardState extends State<Dashboard> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("Categories", style: TextStyle(fontSize: 23.0)),
+                    Text(
+                      "Categories",
+                      style: GlobalStyling.title,
+                    ),
                     TextButton(onPressed: () {}, child: Text("See All")),
                   ],
                 ),
@@ -169,26 +165,30 @@ class _DashboardState extends State<Dashboard> {
                     ),
                   ],
                 ),
-                SizedBox(height: 40.0),
+                SizedBox(height: 25.0),
 
                 // Animals Section
                 Wrap(
-                  spacing: 20, 
-                  runSpacing: 20, 
-                  children: Animals.dummyData.where((animal) => animal.animalType == "CAT").map((animal) {
-                    return SizedBox(
-                      width: boxWidth - 30, 
-                      child: AnimalBox(
-                        imagePath: animal.imagePath,
-                        animalName: animal.animalName,
-                        distance: '${animal.distance.toString()} KM',
-                        price: '\$ ${animal.price.toString()}',
-                        startColour: GlobalColours.lightDarkOrange,
-                        endColour: Colors.white,
-                      ),
-                    );
-                  }).toList(),
+                  spacing: 20,
+                  runSpacing: 20,
+                  children: Animals.dummyData
+                      .where((animal) => animal.animalType == "DOG")
+                      .map((animal) {
+                        return SizedBox(
+                          width: boxWidth - 30,
+                          child: AnimalBox(
+                            imagePath: animal.imagePath,
+                            animalName: animal.animalName,
+                            distance: '${animal.distance.toString()} km away',
+                            price: '\$${animal.price.toString()}',
+                            startColour: animal.startColour,
+                            endColour: animal.endColour,
+                          ),
+                        );
+                      })
+                      .toList(),
                 ),
+                SizedBox(height: 20.0),
               ],
             ),
           ),
@@ -220,8 +220,16 @@ class _CategoryToggleButtonState extends State<CategoryToggleButton> {
     super.initState();
   }
 
-  void resetStatus() {
-    activeStatus = false;
+  void updateSelected(String selected) {
+    if (widget.categoryName == selected) {
+      setState(() {
+        activeStatus = true;
+      });
+    } else {
+      setState(() {
+        activeStatus = false;
+      });
+    }
   }
 
   @override
@@ -231,12 +239,12 @@ class _CategoryToggleButtonState extends State<CategoryToggleButton> {
         InkWell(
           onTap: () {
             setState(() {
-              activeStatus = true;
+              updateSelected(widget.categoryName);
             });
           },
           child: Container(
-            height: 90.0,
-            width: 90.0,
+            height: 75.0,
+            width: 75.0,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(25),
               color: activeStatus
@@ -249,7 +257,12 @@ class _CategoryToggleButtonState extends State<CategoryToggleButton> {
             ),
           ),
         ),
-        Text(widget.categoryName, textAlign: TextAlign.center),
+        SizedBox(height: 10.0),
+        Text(
+          widget.categoryName,
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+        ),
       ],
     );
   }
@@ -278,39 +291,82 @@ class AnimalBox extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 8.0),
       child: Container(
-        height: 220.0,
+        height: 230.0,
         width: 180.0,
         decoration: BoxDecoration(
+          color: Colors.white,
           borderRadius: BorderRadius.circular(25),
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [startColour, endColour],
-            stops: [0.0, 1.0],
-          ),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.25),
+              color: Colors.black.withOpacity(0.15),
               offset: Offset(4, 4),
-              blurRadius: 8,
+              blurRadius: 10,
               spreadRadius: 2,
             ),
           ],
         ),
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Center(
-                child: Image.asset(
-                  imagePath,
-                  height: 150.0,
-                  fit: BoxFit.fitHeight,
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(25.0),
+                  topRight: Radius.circular(25.0),
+                ),
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomCenter,
+                  colors: [startColour, endColour],
+                  stops: [0.0, 0.8],
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Center(
+                  child: Image.asset(
+                    imagePath,
+                    height: 150.0,
+                    fit: BoxFit.fitHeight,
+                  ),
                 ),
               ),
             ),
-            Row(children: [Text(animalName), Text(price)]),
-            Text(distance),
+
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 14.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        animalName,
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      Text(
+                        distance,
+                        style: TextStyle(
+                          fontSize: 13.0,
+                          color: Colors.grey[700],
+                        ),
+                      ),
+                    ],
+                  ),
+                  Text(
+                    price,
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),

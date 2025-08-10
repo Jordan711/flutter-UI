@@ -39,7 +39,7 @@ class MainPage extends StatelessWidget {
                   "Smarter Health Starts Here",
                   style: GoogleFonts.poppins(
                     fontWeight: FontWeight.w900,
-                    fontSize: 40.0,
+                    fontSize: 45.0,
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -48,7 +48,6 @@ class MainPage extends StatelessWidget {
                   style: TextStyle(
                     color: const Color.fromARGB(255, 93, 93, 93),
                     fontSize: 15.0,
-                    fontWeight: FontWeight.w400,
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -74,6 +73,7 @@ class MainPage extends StatelessWidget {
                         style: TextStyle(
                           color: const Color.fromARGB(255, 9, 9, 9),
                           fontSize: 15.0,
+                          fontWeight: FontWeight.bold
                         ),
                       ),
                     ],

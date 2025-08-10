@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:pet_care_app/models/veterinarians.dart';
 import 'package:pet_care_app/utils/global_colours.dart';
+import 'package:pet_care_app/utils/global_styling.dart';
 
 class TrainingPage extends StatelessWidget {
   const TrainingPage({super.key});
@@ -10,9 +12,11 @@ class TrainingPage extends StatelessWidget {
       backgroundColor: GlobalColours.lightOrange,
       body: SafeArea(
         child: Container(
-          margin: EdgeInsets.only(left: 40.0, right: 40.0),
+          margin: EdgeInsets.all(40.0),
           child: ScrollConfiguration(
-            behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
+            behavior: ScrollConfiguration.of(
+              context,
+            ).copyWith(scrollbars: false),
             child: ListView(
               children: [
                 // Greeting section
@@ -23,7 +27,7 @@ class TrainingPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text("Let's Train Your Pet!"),
-                        Text("Beginner's Training"),
+                        Text("Beginner's Training", style: GlobalStyling.title),
                       ],
                     ),
                     ClipOval(
@@ -36,7 +40,8 @@ class TrainingPage extends StatelessWidget {
                     ),
                   ],
                 ),
-            
+                SizedBox(height: 20.0),
+
                 //How Can I Help?
                 Container(
                   decoration: BoxDecoration(
@@ -50,7 +55,7 @@ class TrainingPage extends StatelessWidget {
                     ),
                     child: Column(
                       children: [
-                        Text("How Can I Help?"),
+                        Text("How Can I Help?", style: GlobalStyling.title),
                         SizedBox(height: 10.0),
                         HelpButton(
                           helpText: "Not Available. Please check back later",
@@ -70,24 +75,31 @@ class TrainingPage extends StatelessWidget {
                     ),
                   ),
                 ),
-            
-                // Nearby Vetinarian
+                SizedBox(height: 20.0),
+
+                // Nearby Veterinarian
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("Nearby Veterinary", style: TextStyle(fontSize: 23.0)),
+                    Text("Nearby Veterinary", style: GlobalStyling.title),
                     TextButton(onPressed: () {}, child: Text("See All")),
                   ],
                 ),
-                VeterinaryInfoBox(
-                  imagePath: "images/icons8-doctor-94.png",
-                  name: "Dr. Kevin Julio",
-                  position: "Veterinary Doctor",
-                  price: "\$140",
-                  distance: "1.4 KM",
-                  startColour: GlobalColours.nearWhite,
-                  endColour: GlobalColours.lightGreenYellow,
+                SizedBox(height: 20.0),
+                Wrap(
+                  spacing: 20,
+                  runSpacing: 20,
+                  children: Veterinarians.dummyData.map((vet) {
+                    return VeterinaryInfoBox(
+                      imagePath: vet.imagePath,
+                      name: vet.name,
+                      position: vet.position,
+                      price: "${vet.price}\$",
+                      distance: "${vet.distance}km",
+                    );
+                  }).toList(),
                 ),
+                SizedBox(height: 20.0),
               ],
             ),
           ),
@@ -103,8 +115,6 @@ class VeterinaryInfoBox extends StatelessWidget {
   final String position;
   final String price;
   final String distance;
-  final Color startColour;
-  final Color endColour;
 
   const VeterinaryInfoBox({
     super.key,
@@ -113,8 +123,6 @@ class VeterinaryInfoBox extends StatelessWidget {
     required this.position,
     required this.price,
     required this.distance,
-    required this.startColour,
-    required this.endColour,
   });
 
   @override
@@ -125,42 +133,67 @@ class VeterinaryInfoBox extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          colors: [startColour, endColour],
+          colors: [Colors.white, GlobalColours.lightGreenYellow],
           stops: [0.0, 1.0],
         ),
       ),
       child: Padding(
         padding: EdgeInsetsGeometry.all(8.0),
         child: Row(
-          /*
-
-Row(
-  children: [
-    Spacer(flex: 1),
-    Icon(Icons.star),
-    Spacer(flex: 2), // More space
-    Icon(Icons.favorite),
-    Spacer(flex: 1),
-  ],
-)
-          */
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            SizedBox(width: 100.0, child: Image.asset(imagePath)),
-            SizedBox(width: 50.0),
+            SizedBox(
+              width: 150.0,
+              child: Image.asset(imagePath, fit: BoxFit.fill),
+            ),
+            SizedBox(width: 20.0),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(name),
+                Text(
+                  name,
+                  style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w900),
+                ),
                 Text(position),
                 SizedBox(height: 20),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Icon(Icons.attach_money_rounded),
-                    Text(price),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: const Color.fromARGB(255, 203, 169, 156),
+                        borderRadius: BorderRadius.circular(50.0),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: Icon(
+                          Icons.attach_money_rounded,
+                          color: const Color.fromARGB(255, 75, 48, 39),
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 5.0),
+                    Text(price, style: TextStyle(fontWeight: FontWeight.bold)),
+                    SizedBox(width: 20.0),
 
-                    Icon(Icons.location_pin),
-                    Text(distance),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: const Color.fromARGB(255, 203, 169, 156),
+                        borderRadius: BorderRadius.circular(50.0),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: Icon(
+                          Icons.location_pin,
+                          color: const Color.fromARGB(255, 75, 48, 39),
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 5.0),
+                    Text(
+                      distance,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                   ],
                 ),
               ],
@@ -198,7 +231,13 @@ class HelpButton extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(helpButtonLabel),
+            Container(
+              margin: EdgeInsets.only(left: 16.0),
+              child: Text(
+                helpButtonLabel,
+                style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+              ),
+            ),
             Container(
               height: 50.0,
               width: 50.0,
