@@ -18,5 +18,7 @@ class Animals {
   Animals('images/havanese-dog.png', "Dog", 4.0, 40.0, GlobalColours.lightDarkOrange, Colors.white, "DOG"),
   Animals('images/maltese-dog.png', "Dog", 4.0, 40.0, GlobalColours.lightDarkOrange, Colors.white, "DOG"),
   Animals('images/feral-cat.png', "Cat", 4.0, 40.0, GlobalColours.lightDarkOrange, Colors.white, "CAT"),
+  Animals('images/fried-fish.png', "Fish", 4.0, 40.0, GlobalColours.lightDarkOrange, Colors.white, "FISH"),
+  Animals('images/goldfish.png', "Fish", 4.0, 40.0, GlobalColours.lightDarkOrange, Colors.white, "FISH"),
  ] ;
 }
