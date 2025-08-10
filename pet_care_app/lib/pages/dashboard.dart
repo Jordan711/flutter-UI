@@ -207,22 +207,27 @@ class _AnimalSectionState extends State<AnimalSection> {
         Wrap(
           spacing: 20,
           runSpacing: 20,
-          children: Animals.dummyData
-              .where((animal) => animal.animalType == currFilter)
-              .map((animal) {
-                return SizedBox(
-                  width: boxWidth - 30,
-                  child: AnimalBox(
-                    imagePath: animal.imagePath,
-                    animalName: animal.animalName,
-                    distance: '${animal.distance.toString()} km away',
-                    price: '\$${animal.price.toString()}',
-                    startColour: animal.startColour,
-                    endColour: animal.endColour,
-                  ),
-                );
-              })
-              .toList(),
+          children:
+              Animals.dummyData
+                      .where((animal) => animal.animalType == currFilter)
+                      .isNotEmpty
+              ? Animals.dummyData
+                    .where((animal) => animal.animalType == currFilter)
+                    .map((animal) {
+                      return SizedBox(
+                        width: boxWidth - 30,
+                        child: AnimalBox(
+                          imagePath: animal.imagePath,
+                          animalName: animal.animalName,
+                          distance: '${animal.distance.toString()} km away',
+                          price: '\$${animal.price.toString()}',
+                          startColour: animal.startColour,
+                          endColour: animal.endColour,
+                        ),
+                      );
+                    })
+                    .toList()
+              : [Center(child: Text("No results found"))],
         ),
       ],
     );
