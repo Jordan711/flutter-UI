@@ -53,6 +53,7 @@ class Catalogue extends StatelessWidget {
             ),
             Divider(indent: 16.0, endIndent: 16.0),
             Container(
+              margin: EdgeInsets.symmetric(horizontal: 16.0),
               decoration: BoxDecoration(
                 color: Colors.grey[300],
                 borderRadius: BorderRadius.circular(50.0),
@@ -61,14 +62,22 @@ class Catalogue extends StatelessWidget {
                 padding: EdgeInsetsGeometry.all(8.0),
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      FilterButton(buttonText: "All Product"),
-                      FilterButton(buttonText: "Living Room"),
-                      FilterButton(buttonText: "Bedroom"),
-                      FilterButton(buttonText: "Dining Room"),
-                    ],
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      minWidth: MediaQuery.of(context).size.width - 50.0,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        FilterButton(buttonText: "All Product", selected: "Living Room",),
+                        SizedBox(width: 12.0),
+                        FilterButton(buttonText: "Living Room", selected: "Living Room"),
+                        SizedBox(width: 12.0),
+                        FilterButton(buttonText: "Bedroom", selected: "Living Room"),
+                        SizedBox(width: 12.0),
+                        FilterButton(buttonText: "Dining Room", selected: "Living Room"),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -87,22 +96,49 @@ class Catalogue extends StatelessWidget {
   }
 }
 
-class FilterButton extends StatelessWidget {
+class FilterButton extends StatefulWidget {
   final String buttonText;
-  const FilterButton({super.key, required this.buttonText});
+  final String selected;
+  const FilterButton({super.key, required this.buttonText, required this.selected});
+
+  @override
+  State<FilterButton> createState() => _FilterButtonState();
+}
+
+class _FilterButtonState extends State<FilterButton> {
+  late String selectedInternal;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedInternal = widget.selected;  // initialize state copy
+  }
+
+  void updateSelected(String selectedNew) {
+    setState(() {
+      selectedInternal = selectedNew;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(50.0),
-        color: Colors.black,
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-        child: Text(buttonText, style: TextStyle(color: Colors.grey[100])),
-      ),
-    );
+    if (widget.buttonText == selectedInternal) {
+      return Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(50.0),
+          color: Colors.black,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+          child: Text(
+            widget.buttonText,
+            style: TextStyle(color: Colors.grey[100]),
+          ),
+        ),
+      );
+    } else {
+      return Text(widget.buttonText, style: TextStyle(color: Colors.black));
+    }
   }
 }
 
