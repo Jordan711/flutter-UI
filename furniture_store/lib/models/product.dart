@@ -21,7 +21,7 @@ class Product {
 
   static final dummyData = [
     Product(
-      imagePath: "image",
+      imagePath: "images/table-living-room.png",
       name: "Six Dining Set",
       price: "\$1,770",
       rating: "4.8",

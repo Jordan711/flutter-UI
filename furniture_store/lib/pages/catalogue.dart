@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:furniture_store/models/product.dart';
 
 class Catalogue extends StatelessWidget {
   const Catalogue({super.key});
@@ -69,13 +70,25 @@ class Catalogue extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        FilterButton(buttonText: "All Product", selected: "Living Room",),
+                        FilterButton(
+                          buttonText: "All Product",
+                          selected: "Living Room",
+                        ),
                         SizedBox(width: 12.0),
-                        FilterButton(buttonText: "Living Room", selected: "Living Room"),
+                        FilterButton(
+                          buttonText: "Living Room",
+                          selected: "Living Room",
+                        ),
                         SizedBox(width: 12.0),
-                        FilterButton(buttonText: "Bedroom", selected: "Living Room"),
+                        FilterButton(
+                          buttonText: "Bedroom",
+                          selected: "Living Room",
+                        ),
                         SizedBox(width: 12.0),
-                        FilterButton(buttonText: "Dining Room", selected: "Living Room"),
+                        FilterButton(
+                          buttonText: "Dining Room",
+                          selected: "Living Room",
+                        ),
                       ],
                     ),
                   ),
@@ -89,6 +102,18 @@ class Catalogue extends StatelessWidget {
               style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 20.0),
+            Wrap(
+              spacing: 20,
+              runSpacing: 20,
+              children: Product.dummyData.map((item) {
+                return CatalogueItem(
+                  imagePath: item.imagePath,
+                  name: item.name,
+                  price: item.price,
+                  rating: item.rating,
+                );
+              }).toList(),
+            ),
           ],
         ),
       ),
@@ -99,7 +124,11 @@ class Catalogue extends StatelessWidget {
 class FilterButton extends StatefulWidget {
   final String buttonText;
   final String selected;
-  const FilterButton({super.key, required this.buttonText, required this.selected});
+  const FilterButton({
+    super.key,
+    required this.buttonText,
+    required this.selected,
+  });
 
   @override
   State<FilterButton> createState() => _FilterButtonState();
@@ -111,7 +140,7 @@ class _FilterButtonState extends State<FilterButton> {
   @override
   void initState() {
     super.initState();
-    selectedInternal = widget.selected;  // initialize state copy
+    selectedInternal = widget.selected; // initialize state copy
   }
 
   void updateSelected(String selectedNew) {
@@ -157,6 +186,38 @@ class CatalogueItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Padding(
+      padding: EdgeInsetsGeometry.all(8.0),
+      child: Column(
+        children: [
+          Stack(
+            alignment: AlignmentDirectional.bottomEnd,
+            children: [
+              Image.asset(imagePath),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30.0),
+                    color: Colors.white,
+                  ),
+                  child: Icon(Icons.add),
+                ),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [Text(name), Row(
+              children: [
+                Icon(Icons.star, color: Colors.yellow),
+                Text(rating),
+              ],
+            )],
+          ),
+          Text(price),
+        ],
+      ),
+    );
   }
 }
