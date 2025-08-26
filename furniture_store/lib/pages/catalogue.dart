@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:furniture_store/models/product.dart';
+import 'package:furniture_store/pages/detail.dart';
 
 class Catalogue extends StatelessWidget {
   const Catalogue({super.key});
@@ -201,19 +202,24 @@ class CatalogueItem extends StatelessWidget {
                     borderRadius: BorderRadius.circular(30.0),
                     color: Colors.white,
                   ),
-                  child: Icon(Icons.add),
+                  child: GestureDetector(onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => DetailsPage()));
+                  }, child: Icon(Icons.add)),
                 ),
               ),
             ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [Text(name), Row(
-              children: [
-                Icon(Icons.star, color: Colors.yellow),
-                Text(rating),
-              ],
-            )],
+            children: [
+              Text(name),
+              Row(
+                children: [
+                  Icon(Icons.star, color: Colors.yellow),
+                  Text(rating),
+                ],
+              ),
+            ],
           ),
           Text(price),
         ],
