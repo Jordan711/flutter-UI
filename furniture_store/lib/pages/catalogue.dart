@@ -108,10 +108,7 @@ class Catalogue extends StatelessWidget {
               runSpacing: 20,
               children: Product.dummyData.map((item) {
                 return CatalogueItem(
-                  imagePath: item.imagePath,
-                  name: item.name,
-                  price: item.price,
-                  rating: item.rating,
+                  productInfo: item,
                 );
               }).toList(),
             ),
@@ -173,16 +170,11 @@ class _FilterButtonState extends State<FilterButton> {
 }
 
 class CatalogueItem extends StatelessWidget {
-  final String imagePath;
-  final String name;
-  final String rating;
-  final String price;
+  final Product productInfo;
+  
   const CatalogueItem({
     super.key,
-    required this.imagePath,
-    required this.name,
-    required this.rating,
-    required this.price,
+    required this.productInfo,
   });
 
   @override
@@ -194,7 +186,7 @@ class CatalogueItem extends StatelessWidget {
           Stack(
             alignment: AlignmentDirectional.bottomEnd,
             children: [
-              Image.asset(imagePath),
+              Image.asset(productInfo.imagePath),
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Container(
@@ -203,7 +195,7 @@ class CatalogueItem extends StatelessWidget {
                     color: Colors.white,
                   ),
                   child: GestureDetector(onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => DetailsPage()));
+                    Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => DetailsPage(productInfo: productInfo,)));
                   }, child: Icon(Icons.add)),
                 ),
               ),
@@ -212,16 +204,16 @@ class CatalogueItem extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(name),
+              Text(productInfo.name),
               Row(
                 children: [
                   Icon(Icons.star, color: Colors.yellow),
-                  Text(rating),
+                  Text(productInfo.rating),
                 ],
               ),
             ],
           ),
-          Text(price),
+          Text(productInfo.price),
         ],
       ),
     );
