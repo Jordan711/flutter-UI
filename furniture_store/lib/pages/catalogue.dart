@@ -68,30 +68,7 @@ class Catalogue extends StatelessWidget {
                     constraints: BoxConstraints(
                       minWidth: MediaQuery.of(context).size.width - 50.0,
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        FilterButton(
-                          buttonText: "All Product",
-                          selected: "Living Room",
-                        ),
-                        SizedBox(width: 12.0),
-                        FilterButton(
-                          buttonText: "Living Room",
-                          selected: "Living Room",
-                        ),
-                        SizedBox(width: 12.0),
-                        FilterButton(
-                          buttonText: "Bedroom",
-                          selected: "Living Room",
-                        ),
-                        SizedBox(width: 12.0),
-                        FilterButton(
-                          buttonText: "Dining Room",
-                          selected: "Living Room",
-                        ),
-                      ],
-                    ),
+                    child: FilterComponent(),
                   ),
                 ),
               ),
@@ -107,9 +84,7 @@ class Catalogue extends StatelessWidget {
               spacing: 20,
               runSpacing: 20,
               children: Product.dummyData.map((item) {
-                return CatalogueItem(
-                  productInfo: item,
-                );
+                return CatalogueItem(productInfo: item);
               }).toList(),
             ),
           ],
@@ -119,13 +94,46 @@ class Catalogue extends StatelessWidget {
   }
 }
 
+class FilterComponent extends StatefulWidget {
+  const FilterComponent({super.key});
+
+  @override
+  State<FilterComponent> createState() => _FilterComponentState();
+}
+
+class _FilterComponentState extends State<FilterComponent> {
+  String currSelected = "Living Room";
+  @override
+  Widget build(BuildContext context) {
+    void setCurrFilter(String newFilter) {
+      setState(() {
+        currSelected = newFilter;
+      });
+    }
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        FilterButton(buttonText: "All Product", selected: currSelected, changeSelected: setCurrFilter,),
+        SizedBox(width: 12.0),
+        FilterButton(buttonText: "Living Room", selected: currSelected, changeSelected: setCurrFilter),
+        SizedBox(width: 12.0),
+        FilterButton(buttonText: "Bedroom", selected: currSelected, changeSelected: setCurrFilter),
+        SizedBox(width: 12.0),
+        FilterButton(buttonText: "Dining Room", selected: currSelected, changeSelected: setCurrFilter),
+      ],
+    );
+  }
+}
+
 class FilterButton extends StatefulWidget {
   final String buttonText;
   final String selected;
+  final Function changeSelected;
   const FilterButton({
     super.key,
     required this.buttonText,
-    required this.selected,
+    required this.selected, required this.changeSelected,
   });
 
   @override
@@ -133,23 +141,15 @@ class FilterButton extends StatefulWidget {
 }
 
 class _FilterButtonState extends State<FilterButton> {
-  late String selectedInternal;
-
-  @override
-  void initState() {
-    super.initState();
-    selectedInternal = widget.selected; // initialize state copy
-  }
-
   void updateSelected(String selectedNew) {
     setState(() {
-      selectedInternal = selectedNew;
+      widget.changeSelected(selectedNew);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    if (widget.buttonText == selectedInternal) {
+    if (widget.buttonText == widget.selected) {
       return Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(50.0),
@@ -164,18 +164,17 @@ class _FilterButtonState extends State<FilterButton> {
         ),
       );
     } else {
-      return Text(widget.buttonText, style: TextStyle(color: Colors.black));
+      return InkWell(onTap: () {
+        updateSelected(widget.buttonText);
+      }, child: Text(widget.buttonText, style: TextStyle(color: Colors.black)));
     }
   }
 }
 
 class CatalogueItem extends StatelessWidget {
   final Product productInfo;
-  
-  const CatalogueItem({
-    super.key,
-    required this.productInfo,
-  });
+
+  const CatalogueItem({super.key, required this.productInfo});
 
   @override
   Widget build(BuildContext context) {
@@ -194,9 +193,17 @@ class CatalogueItem extends StatelessWidget {
                     borderRadius: BorderRadius.circular(30.0),
                     color: Colors.white,
                   ),
-                  child: GestureDetector(onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => DetailsPage(productInfo: productInfo,)));
-                  }, child: Icon(Icons.add)),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (ctx) =>
+                              DetailsPage(productInfo: productInfo),
+                        ),
+                      );
+                    },
+                    child: Icon(Icons.add),
+                  ),
                 ),
               ),
             ],
