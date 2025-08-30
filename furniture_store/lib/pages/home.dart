@@ -37,7 +37,7 @@ class Home extends StatelessWidget {
                 children: [
                   LineButtons(),
 
-                  SizedBox(height: 20.0),
+                  SizedBox(height: 25.0),
 
                   Row(
                     children: [
@@ -53,21 +53,23 @@ class Home extends StatelessWidget {
                       ),
                     ],
                   ),
+                  SizedBox(height: 5.0),
                   Text(
                     "Sustainably Crafted,\nBeautifully Designed",
                     style: TextStyle(
-                      fontSize: 24.0,
+                      fontSize: 32.0,
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
+                  SizedBox(height: 5.0),
                   Text(
                     "Curated furniture collections made from sustainable materials by expert craftsmen",
                     style: TextStyle(fontSize: 14.0, color: Colors.white),
                   ),
 
                   Spacer(),
-                  
+
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       padding: EdgeInsets.zero,
