@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:furniture_store/pages/catalogue.dart';
 
@@ -40,15 +41,50 @@ class Home extends StatelessWidget {
                 style: TextStyle(fontSize: 12.0, color: Colors.white),
               ),
 
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(builder: (builder) => Catalogue()));
-                },
-                child: Center(child: Text("Explore Collections")),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: WidgetStateProperty.all(Colors.black),
+                    padding: WidgetStateProperty.all(
+                      EdgeInsets.symmetric(vertical: 20.0),
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (builder) => Catalogue()),
+                    );
+                  },
+                  child: Center(
+                    child: Text(
+                      "Explore Collections",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
               ),
-              Text(
-                "Already have an account? Login!",
-                style: TextStyle(color: Colors.white),
+              Center(
+                child: RichText(text: TextSpan(children: [
+                  TextSpan(
+                    text: "Already have an account? ",
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      color: Colors.white,
+                    ),
+                  ),
+                  TextSpan(
+                    text: "Login!",
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      color: Colors.white,
+                      decoration: TextDecoration.underline
+                    ),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () {
+                        print('Login tapped!');
+                      }
+                  )
+                ])),
               ),
             ],
           ),
