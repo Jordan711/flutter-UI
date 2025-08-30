@@ -22,24 +22,42 @@ class Home extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                children: [
-                  Icon(Icons.add_box_rounded, color: Colors.white, size: 40),
-                  Icon(Icons.ac_unit_rounded, color: Colors.white, size: 40),
-                ],
-              ),
-              Text(
-                "Sustainably Crafted,\nBeautifully Designed",
-                style: TextStyle(
-                  fontSize: 24.0,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
+              Container(
+                padding: EdgeInsets.only(left: 32.0, right: 32.0, top: 32.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.add_box_rounded,
+                          color: Colors.white,
+                          size: 40,
+                        ),
+                        Icon(
+                          Icons.ac_unit_rounded,
+                          color: Colors.white,
+                          size: 40,
+                        ),
+                      ],
+                    ),
+                    Text(
+                      "Sustainably Crafted,\nBeautifully Designed",
+                      style: TextStyle(
+                        fontSize: 24.0,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      "Curated furniture collections made from sustainable materials by expert craftsmen",
+                      style: TextStyle(fontSize: 12.0, color: Colors.white),
+                    ),
+                  ],
                 ),
               ),
-              Text(
-                "Curated furniture collections made from sustainable materials by expert craftsmen",
-                style: TextStyle(fontSize: 12.0, color: Colors.white),
-              ),
+
+              Spacer(),
 
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 32.0),
@@ -63,29 +81,34 @@ class Home extends StatelessWidget {
                   ),
                 ),
               ),
+
+              SizedBox(height: 12.0),
               Center(
-                child: RichText(text: TextSpan(children: [
-                  TextSpan(
-                    text: "Already have an account? ",
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      color: Colors.white,
-                    ),
+                child: RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: "Already have an account? ",
+                        style: TextStyle(fontSize: 16.0, color: Colors.white),
+                      ),
+                      TextSpan(
+                        text: "Login!",
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          color: Colors.white,
+                          decoration: TextDecoration.underline,
+                        ),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            print('Login tapped!');
+                          },
+                      ),
+                    ],
                   ),
-                  TextSpan(
-                    text: "Login!",
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      color: Colors.white,
-                      decoration: TextDecoration.underline
-                    ),
-                    recognizer: TapGestureRecognizer()
-                      ..onTap = () {
-                        print('Login tapped!');
-                      }
-                  )
-                ])),
+                ),
               ),
+
+              SizedBox(height: 30.0),
             ],
           ),
         ),
