@@ -10,84 +10,88 @@ class Catalogue extends StatelessWidget {
     final TextEditingController searchController = TextEditingController();
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Search section
-            Row(
-              children: [
-                Icon(Icons.add_box_rounded, color: Colors.black, size: 40.0),
-                Icon(Icons.ac_unit_rounded, color: Colors.black, size: 40.0),
-                Expanded(
-                  child: TextField(
-                    controller: searchController,
-                    decoration: InputDecoration(
-                      icon: Icon(Icons.search),
-                      hintText: "Search Anything",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(50.0),
-                      ),
-                    ),
-                  ),
-                ),
-                Stack(
-                  children: [
-                    Icon(Icons.shopping_bag, size: 40.0),
-                    Container(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.red,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          "2",
-                          style: TextStyle(color: Colors.white, fontSize: 8.0),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Search section
+              Row(
+                children: [
+                  Icon(Icons.add_box_rounded, color: Colors.black, size: 40.0),
+                  Icon(Icons.ac_unit_rounded, color: Colors.black, size: 40.0),
+                  Expanded(
+                    child: TextField(
+                      controller: searchController,
+                      decoration: InputDecoration(
+                        icon: Icon(Icons.search),
+                        hintText: "Search Anything",
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(50.0),
                         ),
                       ),
                     ),
-                  ],
-                ),
-                SizedBox(height: 10.0),
-                Icon(Icons.favorite_border_outlined, size: 40.0),
-                SizedBox(height: 10.0),
-              ],
-            ),
-            Divider(indent: 16.0, endIndent: 16.0),
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 16.0),
-              decoration: BoxDecoration(
-                color: Colors.grey[300],
-                borderRadius: BorderRadius.circular(50.0),
+                  ),
+                  SizedBox(width: 10.0),
+                  Stack(
+                    children: [
+                      Icon(Icons.shopping_bag, size: 40.0),
+                      Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.red,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            "2",
+                            style: TextStyle(color: Colors.white, fontSize: 8.0),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 10.0),
+                  Icon(Icons.favorite_border_outlined, size: 40.0),
+                  SizedBox(height: 10.0),
+                ],
               ),
-              child: Padding(
-                padding: EdgeInsetsGeometry.all(8.0),
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints(
-                      minWidth: MediaQuery.of(context).size.width - 50.0,
+              Divider(indent: 16.0, endIndent: 16.0),
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 16.0),
+                decoration: BoxDecoration(
+                  color: Colors.grey[300],
+                  borderRadius: BorderRadius.circular(50.0),
+                ),
+                child: Padding(
+                  padding: EdgeInsetsGeometry.symmetric(vertical: 8.0),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(
+                        minWidth: MediaQuery.of(context).size.width - 50.0,
+                      ),
+                      child: FilterComponent(),
                     ),
-                    child: FilterComponent(),
                   ),
                 ),
               ),
-            ),
-
-            SizedBox(height: 20.0),
-            Text(
-              "DISCOVER NEW PRODUCT",
-              style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 20.0),
-            Wrap(
-              spacing: 20,
-              runSpacing: 20,
-              children: Product.dummyData.map((item) {
-                return CatalogueItem(productInfo: item);
-              }).toList(),
-            ),
-          ],
+          
+              SizedBox(height: 20.0),
+              Text(
+                "DISCOVER NEW PRODUCT",
+                style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 20.0),
+              Wrap(
+                spacing: 20,
+                runSpacing: 20,
+                children: Product.dummyData.map((item) {
+                  return CatalogueItem(productInfo: item);
+                }).toList(),
+              ),
+            ],
+          ),
         ),
       ),
     );
